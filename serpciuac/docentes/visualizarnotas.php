@@ -115,8 +115,8 @@ session_start();
               <div class="dropdown" id="padingbtn1" >
                 <a href="#"  class="dropbtn">Asistencia</a>
                   <div class="dropdown-content">
-                    <a href="#">Registrar Asistencia</a>
-                    <a href="#">Visualizar Asistencia</a>
+                    <a href="registrarasistencia.php">Registrar Asistencia</a>
+                    <a href="visualizarasistencia.php">Visualizar Asistencia</a>
                                         
                   </div>
               </div> 
@@ -191,30 +191,13 @@ session_start();
                         <option value="<?php echo $opciones['Id_Curso']?>"> <?php echo $opciones['Nombre_Curso']; ?>  </option>
                       <?php endforeach ?>
                     </select>
+
                   </div>
+
+                  
 
                   <div id="alumnoslista" name="alumnoslista"  class="form-group col-sm-10"></div>
 
-                  <div class="form-group col-sm-3">
-                    <label class="control-label col-sm-20" for="email">Nota 1:</label>
-                    <input type="text" class="control-label selesctcss mb-3" placeholder="0" name="n1">                                        
-                  </div>
-                  <div class="form-group col-sm-3">
-                    <label class="control-label col-sm-20" for="email">Nota 2:</label>
-                    <input type="text" class="control-label selesctcss mb-3" placeholder="0" name="n2">                                        
-                  </div>
-                  <div class="form-group col-sm-3">
-                    <label class="control-label col-sm-20" for="email">Nota 3:</label>
-                    <input type="text" class="control-label selesctcss mb-3" placeholder="0" name="n3">                                        
-                  </div>
-                  <div class="form-group col-sm-3">
-                    <label class="control-label col-sm-20" for="email">Nota 4:</label>
-                    <input type="text" class="control-label selesctcss mb-3" placeholder="0" name="n4">                                        
-                  </div>
-
-                  <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="submitform btn btn-default">Actualizar Notas Nuevo Curso</button>
-                    </div>
                 </form>
                 
         
@@ -268,7 +251,7 @@ session_start();
   function recargarlista(){
     $.ajax({
       type:"POST",
-      url:"../logica/datos.php",
+      url:"../logica/datos1.php",
       data:"idioma=" + $('#idselectcursos').val(),
         success:function(r){
           $('#alumnoslista').html(r);
