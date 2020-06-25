@@ -59,14 +59,12 @@ session_start();
                 <h2 class="h2princ" >Centro de Idiomas UAC</h2>
             <ul class="list-unstyled components mb-5">
               
-
-              
-                <li>
+  <li>
                 <div class="dropdown" id="padingbtn1" >
                 <a href="#"  class="dropbtn">Matricula</a>
                   <div class="dropdown-content">
                     <a href="revisar_matricula.php">Constancia de Matricula</a>
-                    <a href="../estudiantes/registrar_matricula.php">Registrar Matricula</a>
+                    <a href="registrar_matricula.php">Registrar Matricula</a>
                     
                   </div>
               </div> 
@@ -76,7 +74,7 @@ session_start();
               <div class="dropdown" id="padingbtn1" >
                 <a href="#"  class="dropbtn">Notas</a>
                   <div class="dropdown-content">
-                    <a href="#">Visualizar Notas</a>
+                    <a href="visualizarnotas.php">Visualizar Notas</a>
                                         
                   </div>
 
@@ -88,13 +86,13 @@ session_start();
               <div class="dropdown" id="padingbtn1" >
                 <a href="#"  class="dropbtn">Asistencia</a>
                   <div class="dropdown-content">
-                    <a href="#">Visualizar Asistencia</a>
+                    <a href="visualizarasistencia.php">Visualizar Asistencia</a>
                                         
                   </div>
               </div> 
               </li>
 
-<li>
+              <li>
               <div class="dropdown" id="padingbtn1" >
                 <a href="#" class="dropbtn">Datos</a>
                   <div class="dropdown-content">

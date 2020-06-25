@@ -20,7 +20,7 @@ $fecha = date("Y-m-d");
 
 
 
-    $sql="UPDATE matriculados SET Id_Grado = $grado";
+    $sql="UPDATE matriculados SET Id_Grado = '$grado' WHERE id_usuario ='$id_usuario'";
 						
 			echo $resultado = mysqli_query($conexion,$sql);
 			if (!$resultado) {

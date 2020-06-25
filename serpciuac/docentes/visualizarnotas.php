@@ -126,7 +126,7 @@ session_start();
               <div class="dropdown" id="padingbtn1" >
                 <a href="#" class="dropbtn">Datos</a>
                   <div class="dropdown-content">
-                    <a href="docentes/datosdocentes.php">Visualizar Datos</a>
+                    <a href="datosdocentes.php">Visualizar Datos</a>
                                         
                   </div>
               </div> 

@@ -1,31 +1,27 @@
 <?php 
 
+require_once "../../login/logica/conexion.php";
+$conexion=conexion();
 session_start();   
   //error_reporting(0);
-  $varsesion=$_SESSION['usuario'];
+  $varsesion=$_SESSION['usuario']; 
   $varusuario=$_SESSION['pass'];
 
-  $usuario =$varsesion;
-  $pass =$varusuario;
-  $idiomas='a';
-  
-  $idiomas = Traer_Idioma($usuario);
-  $grado = Traer_Curso($usuario);
-  $horario = Traer_Horario($usuario);
+  $usuarioid = traerIdUsuario($varsesion,$varusuario);
+  $idcursos = traerIDCursos($varsesion);
+
+/*
 
 
-  $nombreusuario = nombre($usuario);
-  $appaterno = apellidop($usuario);
-  $apmaterno = apellidom($usuario);
- 
-
-  /*
-  
   echo $varsesion;
   echo $varusuario;
-  */
-
-
+*/
+  $nombreusuario = traerNombre($varsesion,$varusuario);
+  $appaterno = traerApPaterno($varsesion,$varusuario);
+  $apmaterno = traerApMaterno($varsesion,$varusuario);
+  $rago = traerRango($varsesion,$varusuario);
+  $DNI = traerDNI($varsesion,$varusuario);
+  
 
  if($varsesion == null || $varsesion=''){
 
@@ -43,7 +39,7 @@ session_start();
 <html>
 <head>
     <title>Sistema ERP Centro de Idiomas</title>
-        <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
@@ -75,9 +71,15 @@ session_start();
   <link rel="stylesheet" type="text/css" href="../../login/css/main.css">
 <!--===============================================================================================-->
 
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
+
 
   </head>
   <body>
+
         
         <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar" class="active">
@@ -89,28 +91,19 @@ session_start();
             </button>
                 </div>
             <div class="p-4">
-                <h1><a href="../estudiantes.php" class="logo">Sistema ERP</a></h1>
+                <h1><a href="../director.php" class="logo">Sistema ERP</a></h1>
                 <h2 class="h2princ" >Centro de Idiomas UAC</h2>
             <ul class="list-unstyled components mb-5">
               
 
               
-                  <li>
-                <div class="dropdown" id="padingbtn1" >
-                <a href="#"  class="dropbtn">Matricula</a>
-                  <div class="dropdown-content">
-                    <a href="revisar_matricula.php">Constancia de Matricula</a>
-                    <a href="registrar_matricula.php">Registrar Matricula</a>
-                    
-                  </div>
-              </div> 
-              </li>
-
-              <li>
+                <li>
               <div class="dropdown" id="padingbtn1" >
                 <a href="#"  class="dropbtn">Notas</a>
                   <div class="dropdown-content">
                     <a href="visualizarnotas.php">Visualizar Notas</a>
+                    <a href="registrarnotas.php">Registrar Notas</a>
+
                                         
                   </div>
 
@@ -122,17 +115,18 @@ session_start();
               <div class="dropdown" id="padingbtn1" >
                 <a href="#"  class="dropbtn">Asistencia</a>
                   <div class="dropdown-content">
+                    <a href="registrarasistencia.php">Registrar Asistencia</a>
                     <a href="visualizarasistencia.php">Visualizar Asistencia</a>
                                         
                   </div>
               </div> 
               </li>
 
-              <li>
+<li>
               <div class="dropdown" id="padingbtn1" >
                 <a href="#" class="dropbtn">Datos</a>
                   <div class="dropdown-content">
-                    <a href="datosestudiantes.php">Visualizar Datos</a>
+                    <a href="datosdocentes.php">Visualizar Datos</a>
                                         
                   </div>
               </div> 
@@ -168,45 +162,62 @@ session_start();
                           <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
 
                 <a href="../../serpciuac/logica/cerrarsesion.php" >Cerrar Sesión</a>
+                 
+
             </div>
 
           </div>
         </nav>
-
-        <!-- Page Content  -->
+ <!-- Page Content  -->
          
-         <div id="content" class="p-4 p-md-5 pt-5">
-                <h2 class="mb-4">  <?php echo "Bienvenido Estudiante ". $nombreusuario." ".$appaterno." ".$apmaterno; ?> </h2>
+          <div id="content" class="p-4 p-md-5 pt-5">
                 
 
-                <form class="form-horizontal" method="POST" action="../logica/crear_matricula.php">
+                <form class="form-horizontal" action="../logica/registrarnotas_logica.php" method = "post" >
+                  
+                  <div class="form-group col-sm-10">
+                    <label class="control-label col-sm-20" for="email">Seleccione Idioma:</label>                    
+                    <br>
+                    
+                    <input type="date" name="datefecha" id="datefecha">
+                  </div>
+
+                  <div class="form-group col-sm-10">
+                    <label class="control-label col-sm-20" for="email">Seleccione Idioma:</label>                    
+                    <br>
+                    <select class="control-label col-sm-20 selesctcss " id="idselectcursos"  name="idselectcursos" >                      
+                      <?php 
+                        
+                  /*$consulta ="SELECT * FROM idioma WHERE Id_idioma = (SELECT Id_idioma FROM matriculados WHERE id_usuario = ".$IdUser.")";*/
+                  $consulta ="SELECT * FROM curso WHERE Id_Docente='$usuarioid'";
+                        $resultado = mysqli_query($conexion,$consulta);
+                      ?>
+                      <option value="0"> Seleccione el Idioma</option>
+                      <?php foreach ($resultado as $opciones):  ?>
+
+                        <option value="<?php echo $opciones['Id_Curso']?>"> <?php echo $opciones['Nombre_Curso']; ?>  </option>
+                      <?php endforeach ?>
+                    </select>
+                  </div>
+
+                  <div id="alumnoslista" name="alumnoslista"  class="form-group col-sm-10"></div>
+
+                  <div id="alumnosasistencia" name="alumnosasistencia"  class="form-group col-sm-10"></div>
 
                   
-                  <div class="form-group">        
-                    <div class=" col-sm-10">
-                      <label class="col-sm-10">Idioma: <?php echo $idiomas; ?> </label><br>
-                      <label class="col-sm-10">Nivel: <?php echo $grado; ?> </label><br>
-                      <label class="col-sm-10">Horario: <?php echo $horario; ?> </label><br>
-                        
-                      
-                       
-                      
-                    </div>
-                  </div>
-                 
+
+
+
                 </form>
-
-              
-
-              </div>
-
-        <!--Page Content Final-->
+                
+        
 
 
 
 
 
-        </div>
+          </div>
+          <!--Page Content Final-->
 
     <script src="../js/jquery.min.js"></script>
     <script src="../js/popper.js"></script>
@@ -234,58 +245,119 @@ session_start();
 
   </body>
 </html>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    recargarlista();
+
+    $('#idselectcursos').change(function(){
+        recargarlista();
+    });
+  })
+
+</script>
+
+<script type="text/javascript">
+  function recargarlista(){
+    $.ajax({
+      type:"POST",
+      url:"../logica/datos3.php",
+      data:"idioma="  + $('#idselectcursos').val()+"&fecha="  + $('#datefecha').val(), 
+        success:function(r){
+          $('#alumnoslista').html(r);
+        }
+    });
+  }
+</script>
+<!--
+<script type="text/javascript">
+  $(document).ready(function(){
+    recargarlista();
+
+    $('#idselectcursos').change(function(){
+        recargarlista();
+    });
+  })
+
+</script>
+
+<script type="text/javascript">
+  function recargarlista(){
+    $.ajax({
+      type:"POST",
+      url:"../logica/datos1.php",
+      data:"idioma=" + $('#idselectcursos').val(),
+        success:function(r){
+          $('#alumnoslista').html(r);
+        }
+    });
+  }
+</script>
+-->
+
+
+
+
+
+
 <?php 
 
- function traerIdUsuario($usuario,$clave){
+
+
+  function traerRango($usuario,$clave){
+    $conexion= mysqli_connect("localhost","root","","idiomas");
+    $sql = "SELECT Tipo_Usuario FROM usuarios WHERE Usuario = '$usuario' and  Contrasena = '$clave'";
+      $result = mysqli_query($conexion,$sql);
+      return mysqli_fetch_row($result)[0];
+  }
+
+
+  function traerIDCursos($usuario){
+    $conexion= mysqli_connect("localhost","root","","idiomas");
+    $sql = "SELECT Id_Curso FROM curso WHERE Id_Docente = '$usuario'";
+      $result = mysqli_query($conexion,$sql);
+      return mysqli_fetch_row($result)[0];
+  }
+
+
+  function traerDNI($usuario,$clave){
+    $conexion= mysqli_connect("localhost","root","","idiomas");
+    $sql = "SELECT dniUsuario FROM usuarios WHERE Usuario = '$usuario' and  Contrasena = '$clave'";
+      $result = mysqli_query($conexion,$sql);
+      return mysqli_fetch_row($result)[0];
+  }
+    function traerUsuario($usuario,$clave){
+    $conexion= mysqli_connect("localhost","root","","idiomas");
+    $sql = "SELECT Usuario FROM usuarios WHERE Usuario = '$usuario' and  Contrasena = '$clave'";
+      $result = mysqli_query($conexion,$sql);
+      return mysqli_fetch_row($result)[0];
+  }
+  function traerIdUsuario($usuario,$clave){
     $conexion= mysqli_connect("localhost","root","","idiomas");
     $sql = "SELECT Id_Usuario FROM usuarios WHERE Usuario = '$usuario' and  Contrasena = '$clave'";
       $result = mysqli_query($conexion,$sql);
       return mysqli_fetch_row($result)[0];
   }
 
+ 
 
-   function Traer_Idioma($usuario){
+  function traerNombre($usuario,$clave){
     $conexion= mysqli_connect("localhost","root","","idiomas");
-
-    $sql = "SELECT Nombre_Idioma FROM idioma WHERE Id_idioma =(SELECT Id_idioma FROM matriculados WHERE id_usuario =(SELECT Id_Usuario FROM usuarios WHERE Usuario = '$usuario' ))";
+    $sql = "SELECT Nombre_Usuario FROM usuarios WHERE Usuario = '$usuario' and  Contrasena = '$clave'";
       $result = mysqli_query($conexion,$sql);
       return mysqli_fetch_row($result)[0];
   }
-  function Traer_Horario($usuario){
-
+  function traerApPaterno($usuario,$clave){
     $conexion= mysqli_connect("localhost","root","","idiomas");
-    $aa = $conexion->query("SET NAMES 'utf8'");
-    
-    
-    $sql = "SELECT Nombre_Horario FROM horario WHERE Id_Horario =(SELECT Id_Horario FROM matriculados WHERE id_usuario =(SELECT Id_Usuario FROM usuarios WHERE Usuario = '$usuario' ))";
+    $sql = "SELECT ApPaterno_Usuario FROM usuarios WHERE Usuario = '$usuario' and  Contrasena = '$clave'";
       $result = mysqli_query($conexion,$sql);
       return mysqli_fetch_row($result)[0];
   }
-
-  function Traer_Curso($usuario){
+  function traerApMaterno($usuario,$clave){
     $conexion= mysqli_connect("localhost","root","","idiomas");
-    $sql = "SELECT Nombre_Curso FROM curso WHERE Id_Curso =(SELECT Id_Curso FROM matriculados WHERE id_usuario =(SELECT Id_Usuario FROM usuarios WHERE Usuario = '$usuario' ))";
+    $sql = "SELECT ApMaterno_Usuario FROM usuarios WHERE Usuario = '$usuario' and  Contrasena = '$clave'";
       $result = mysqli_query($conexion,$sql);
       return mysqli_fetch_row($result)[0];
   }
 
-  function nombre($usuario){
-    $conexion= mysqli_connect("localhost","root","","idiomas");
-    $sql = "SELECT Nombre_Usuario FROM usuarios WHERE Usuario = '$usuario' ";
-      $result = mysqli_query($conexion,$sql);
-      return mysqli_fetch_row($result)[0];
-  }
-  function apellidop($usuario){
-    $conexion= mysqli_connect("localhost","root","","idiomas");
-    $sql = "SELECT ApPaterno_Usuario FROM usuarios WHERE Usuario = '$usuario' ";
-      $result = mysqli_query($conexion,$sql);
-      return mysqli_fetch_row($result)[0];
-  }
-  function apellidom($usuario){
-    $conexion= mysqli_connect("localhost","root","","idiomas");
-    $sql = "SELECT ApMaterno_Usuario FROM usuarios WHERE Usuario = '$usuario' ";
-      $result = mysqli_query($conexion,$sql);
-      return mysqli_fetch_row($result)[0];
-  }
-  
 ?>

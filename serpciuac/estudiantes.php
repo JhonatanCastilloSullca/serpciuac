@@ -73,7 +73,7 @@ session_start();
               <div class="dropdown" id="padingbtn1" >
                 <a href="#"  class="dropbtn">Notas</a>
                   <div class="dropdown-content">
-                    <a href="estudiantes/datosestudiantes.php">Visualizar Notas</a>
+                    <a href="estudiantes/visualizarnotas.php">Visualizar Notas</a>
                                         
                   </div>
 
@@ -85,7 +85,7 @@ session_start();
               <div class="dropdown" id="padingbtn1" >
                 <a href="#"  class="dropbtn">Asistencia</a>
                   <div class="dropdown-content">
-                    <a href="#">Visualizar Asistencia</a>
+                    <a href="estudiantes/visualizarasistencia.php">Visualizar Asistencia</a>
                                         
                   </div>
               </div> 

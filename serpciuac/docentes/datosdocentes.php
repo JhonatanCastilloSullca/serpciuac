@@ -88,8 +88,8 @@ session_start();
               <div class="dropdown" id="padingbtn1" >
                 <a href="#"  class="dropbtn">Notas</a>
                   <div class="dropdown-content">
-                    <a href="estudiantes/datosestudiantes.php">Visualizar Notas</a>
-                    <a href="estudiantes/datosestudiantes.php">Registrar Notas</a>
+                    <a href="visualizarnotas.php">Visualizar Notas</a>
+                    <a href="registrarnotas.php">Registrar Notas</a>
 
                                         
                   </div>
@@ -102,8 +102,8 @@ session_start();
               <div class="dropdown" id="padingbtn1" >
                 <a href="#"  class="dropbtn">Asistencia</a>
                   <div class="dropdown-content">
-                    <a href="#">Registrar Asistencia</a>
-                    <a href="#">Visualizar Asistencia</a>
+                    <a href="registrarasistencia.php">Registrar Asistencia</a>
+                    <a href="visualizarasistencia.php">Visualizar Asistencia</a>
                                         
                   </div>
               </div> 
@@ -113,7 +113,7 @@ session_start();
               <div class="dropdown" id="padingbtn1" >
                 <a href="#" class="dropbtn">Datos</a>
                   <div class="dropdown-content">
-                    <a href="docentes/datosdocentes.php">Visualizar Datos</a>
+                    <a href="datosdocentes.php">Visualizar Datos</a>
                                         
                   </div>
               </div> 
@@ -158,7 +158,7 @@ session_start();
           <div id="content" class="p-4 p-md-5 pt-5">
                 
                 <br>
-                <h2 class="mb-4">  <?php echo "Bienvenido Administrador ". $nombreusuario." ".$appaterno." ".$apmaterno; ?> </h2>
+                <h2 class="mb-4">  <?php echo "Bienvenido Docente ". $nombreusuario." ".$appaterno." ".$apmaterno; ?> </h2>
                 
                  <form class="form-horizontal" method="POST" >
                   <div class="form-group">

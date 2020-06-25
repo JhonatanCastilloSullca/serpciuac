@@ -41,7 +41,7 @@ $sql = " INSERT into matriculados (id_usuario,Id_Idioma,Id_Curso,Id_Horario,Id_G
 			}
 			else{
 				$sql1="INSERT into notas (Id_Alumno, Id_Docente,Id_Curso,Nota1,Nota2,Nota3,Nota4,Promedio) VALUES('$id_usuario','0','$idcurso','0','0','0','0','0')";
-	echo $resultado1 = mysqli_query($conexion,$sql1);
+				echo $resultado1 = mysqli_query($conexion,$sql1);
 				echo'<script type="text/javascript">
 		    alert("Registrado con Exito");
 		    window.location.href="../estudiantes/revisar_matricula.php";
